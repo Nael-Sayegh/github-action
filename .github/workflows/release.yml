@@ -1,6 +1,5 @@
 name: release
-on: 
-  push:
+on:
     workflow_call:
 
 jobs:
@@ -43,3 +42,4 @@ jobs:
           files: |
             *.nvda-addon
             *.pot
+          body_path: changelog.md
