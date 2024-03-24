@@ -28,9 +28,6 @@ jobs:
         run: scons
       - name: generating pot file
         run: scons pot
-      - name: get the last tag
-        id: get-latest-tag
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       - name: Upload the nvda add-on 
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
