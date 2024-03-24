@@ -38,8 +38,8 @@ jobs:
           remote_path: ${{ secrets.REMETE_SFTP }}
           sftp_only: true
           password: ${{ secrets.MDP_SFTP }}
-      - name: add file in release
-        #uses: softprops/action-gh-release@v2
+      #- name: add file in release
+        k#uses: softprops/action-gh-release@v2
         #env:
          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         #with:
