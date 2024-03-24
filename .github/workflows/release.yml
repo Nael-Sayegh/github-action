@@ -1,10 +1,6 @@
 name: release
 on: 
   workflow_call:
-    inputs:
-      nameTag:
-        required: true
-        type: string
 
 jobs:
   scons: 
@@ -43,7 +39,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          #tag_name: ${{ inputs.nameTag }}
           files: |
             *.nvda-addon
             *.pot
