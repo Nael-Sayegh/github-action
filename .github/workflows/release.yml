@@ -38,13 +38,13 @@ jobs:
           remote_path: ${{ secrets.REMOTE_SFTP }}
           sftp_only: true
           password: ${{ secrets.MDP_SFTP }}
-      #- name: add file in release
-        #uses: softprops/action-gh-release@v2
-        #env:
-         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #with:
+      - name: add file in release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
           #tag_name: ${{ inputs.nameTag }}
-          #files: |
-            #*.nvda-addon
-            #*.pot
-          #body_path: changelog.md
+          files: |
+            *.nvda-addon
+            *.pot
+          body_path: changelog.md
