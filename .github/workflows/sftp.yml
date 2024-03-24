@@ -24,8 +24,8 @@ jobs:
         run: scons
       - name: get add-on name in buildVars.py
         run: name=$(grep -oP '(?<=addon_name":\s")\w+' buildVars.py) >> $GITHUB_ENV
-      #- name: rename the nvda-addon file
-        #run: mv ./*.nvda-addon ./$name.nvda-addon
+      - name: rename the nvda-addon file
+        run: mv ./*.nvda-addon ./$name.nvda-addon
       - name: list file
         run: ls
       - name: get the last tag
@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.USER_SFTP }}
           server: ${{ secrets.HOST_SFTP }}
           port: ${{ secrets.PORT_SFTP }}
-          local_path: './version_scanvox.txt'
+          local_path: './version.txt'
           remote_path: ${{ secrets.REMOTE_SFTP }}
           sftp_only: true
           password: ${{ secrets.MDP_SFTP }}
@@ -62,4 +62,4 @@ jobs:
           local_path: './addon/doc'
           remote_path: ${{ secrets.REMOTE_SFTP }}
           sftp_only: true
-          password: ${{ secrets.MDP_SFTP }}
+          password: ${{ secrets.MDP_SFTP }}k
