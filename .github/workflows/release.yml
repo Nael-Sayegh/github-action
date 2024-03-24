@@ -1,6 +1,8 @@
 name: release
 on: 
-  workflow_call:
+  push:
+    tags: 
+      - '*'
 
 jobs:
   scons: 
@@ -11,7 +13,7 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.9
       - name: Install scons
         run: pip install scons
       - name: install markdown
@@ -24,6 +26,9 @@ jobs:
         run: scons
       - name: generating pot file
         run: scons pot
+      - name: get the last tag
+        id: get-latest-tag
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       - name: Upload the nvda add-on 
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
@@ -31,7 +36,7 @@ jobs:
           server: ${{ secrets.HOST_SFTP }}
           port: ${{ secrets.PORT_SFTP }}
           local_path: './*.nvda-addon'
-          remote_path: ${{ secrets.REMOTE_SFTP }}
+          remote_path: '/var/www/nvda/addons/addons/scanvox'
           sftp_only: true
           password: ${{ secrets.MDP_SFTP }}
       - name: add file in release

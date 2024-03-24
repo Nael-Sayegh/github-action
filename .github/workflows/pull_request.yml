@@ -7,10 +7,11 @@ permissions:
 on:
   pull_request_target:
     types: [opened, synchronize]
+    unlabeled:
+      - 'notForAddon'
 
 jobs:
   scons:
-    if: "!contains(github.event.pull_request.labels.*.name, 'notForAddon')"
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +20,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           
-      - name: Set up Python 3.11
+      - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.9
           
       - name: Install dependencies
         run: pip install scons markdown
