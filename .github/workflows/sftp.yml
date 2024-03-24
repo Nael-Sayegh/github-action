@@ -23,7 +23,7 @@ jobs:
       - name: Generating Addon
         run: scons
       - name: get add-on name in buildVars.py
-        run: name=$(grep -oP '(?<=addon_name":\s")\w+' buildVars.py) >> $GITHUB_ENV
+        run: echo "name=$(grep -oP '(?<=addon_name":\s")\w+' buildVars.py)" >> $GITHUB_ENV
       - name: rename the nvda-addon file
         run: mv ./*.nvda-addon ./$name.nvda-addon
       - name: list file
