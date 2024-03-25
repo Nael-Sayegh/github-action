@@ -58,9 +58,9 @@ jobs:
             
             if (fs.existsSync('build_error.log') && fs.statSync('build_error.log').size > 2) {
               const errorMessage = fs.readFileSync('build_error.log', 'utf8');
-              body = `Addon build failed with error:\n ${errorMessage}`;
+              body = `Add-on build failed with error:\n ${errorMessage}`;
             } else if (${{steps.artifactURL}}) {
-              body = `Addon built successfully. [Download here](${{steps.artifactURL.outputs.artifact-url}})`;
+              body = `Add-on built successfully. [Download here](${{steps.artifactURL.outputs.artifact-url}})`;
             }
             
             github.rest.issues.createComment({
