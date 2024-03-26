@@ -58,6 +58,6 @@ jobs:
           server: ${{ secrets.HOST_SFTP }}
           port: ${{ secrets.PORT_SFTP }}
           local_path: './addon/doc'
-          remote_path: ${{ secrets.REMOTE_SFTP }}/doc
+          remote_path: ${{ secrets.REMOTE_SFTP }}
           sftp_only: true
           password: ${{ secrets.MDP_SFTP }}
