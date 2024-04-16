@@ -9,7 +9,7 @@ on:
 
 jobs:
   scons:
-    if: "!contains(github.event.pull_request.labels.*.name, 'notForAddon')" || ${{ github.event.pull_request.user.login != 'pre-commit-ci') }}
+    if: "!contains(github.event.pull_request.labels.*.name, 'notForAddon')" || ${{ github.event.pull_request.user.login != 'pre-commit-ci'}}
     runs-on: ubuntu-latest
 
     steps:
