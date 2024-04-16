@@ -8,30 +8,8 @@ on:
   workflow_call:
 
 jobs:
-  check-author:
-    runs-on: ubuntu-latest
-    outputs:
-      proceed: ${{ steps.check_author.outputs.proceed }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    
-    - id: check_author
-      name: Verify Author of Commits
-      run: |
-        AUTHOR_NAME=$(git log -1 --pretty=format:'%an')
-        if [[ "$AUTHOR_NAME" == "pre-commit-ci[bot]" ]]; then
-          echo "::set-output name=proceed::false"
-        else 
-          echo "::set-output name=proceed::true"
-        fi
-      
-
   scons:
-    needs: check-author
-    if: ("!contains(github.event.pull_request.labels.*.name, 'notForAddon')") || (github.event.pull_request.user.login != 'pre-commit-ci') || (needs.check-author.outputs.proceed == 'false')
+    if: "!contains(github.event.pull_request.labels.*.name, 'notForAddon')" || github.actor != 'pre-commit-ci[bot]'"
     runs-on: ubuntu-latest
 
     steps:
