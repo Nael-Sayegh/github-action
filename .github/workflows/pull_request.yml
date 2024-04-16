@@ -31,7 +31,7 @@ jobs:
 
   scons:
     needs: check-author
-    if: ("!contains(github.event.pull_request.labels.*.name, 'notForAddon')") || (github.event.pull_request.user.login != 'pre-commit-ci') || (needs.check-author.outputs.proceed == 'true')
+    if: ("!contains(github.event.pull_request.labels.*.name, 'notForAddon')") || (github.event.pull_request.user.login != 'pre-commit-ci') || (needs.check-author.outputs.proceed == 'false')
     runs-on: ubuntu-latest
 
     steps:
