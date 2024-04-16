@@ -8,33 +8,17 @@ on:
   workflow_call:
 
 jobs:
+  #scons:
+    #if: ()"!contains(github.event.pull_request.labels.*.name, 'notForAddon')") ||  (github.event.comment.body == 'run action') && (github.event.issue.pull_request)
   scons:
-    if: ()"!contains(github.event.pull_request.labels.*.name, 'notForAddon')") || (github.actor != 'pre-commit-ci[bot]'")
+    if: github.event.comment.body == 'run action' && github.event.issue.pull_request
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
-      - name: Get commit info
-        id: commit_info
-        run: |
-          COMMIT_AUTHOR=$(git --no-pager show -s --format='%an' ${{ github.event.pull_request.head.sha }})
-          echo "::set-output name=author::$COMMIT_AUTHOR"
-
-      - name: Check if commit is from bot
-        id: check_bot
-        run: |
-          if [[ "${{ steps.commit_info.outputs.author }}" == "pre-commit-ci[bot]" ]]; then
-            echo "::set-output name=skip::true"
-          else
-            echo "::set-output name=skip::false"
-          fi
-
-      - name: Rest of the steps
-        if: steps.check_bot.outputs.skip == 'false'          
-      #- name: Set up Python 3.11
+          ref: ${{ github.event.issue.pull_request.head.sha }}
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
@@ -49,7 +33,7 @@ jobs:
         run: sudo apt-get install gettext
 
       - name: get commit hash
-        run: echo "COMMIT_HASH=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})" >> $GITHUB_ENV
+        run: echo "COMMIT_HASH=$(git rev-parse --short ${{ github.event.issue.pull_request.head.sha }})" >> $GITHUB_ENV
         
       - name: build with hash of commit
         run: scons version=$COMMIT_HASH 2> build_error.log        
@@ -63,7 +47,6 @@ jobs:
           path: ./*.nvda-addon
           
       - name: comment on pull request
-
         uses: actions/github-script@v7
         if: always()
         with:
