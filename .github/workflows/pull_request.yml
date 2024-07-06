@@ -33,7 +33,7 @@ jobs:
         run: sudo apt-get install gettext
 
       - name: get commit hash
-        run: echo "COMMIT_HASH=$(git rev-parse --short ${{ github.event.issue.pull_request.head.sha }})" >> $GITHUB_ENV
+        run: echo "COMMIT_HASH=$(git rev-parse --short head)" >> $GITHUB_ENV
         
       - name: build with hash of commit
         run: scons version=$COMMIT_HASH 2> build_error.log        
