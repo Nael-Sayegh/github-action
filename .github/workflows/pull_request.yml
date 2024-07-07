@@ -20,7 +20,9 @@ jobs:
       - name: Checkout source repository
         uses: actions/checkout@v4
       - name: Checkout pull request
-        run: git fetch origin pull/${{ steps.number.outputs.NUMBER }}/head:pr/${{ steps.number.outputs.NUMBER }}
+        uses: dawidd6/action-checkout-pr@v1
+        with:
+          pr: ${{ steps.number.outputs.NUMBER }}
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
