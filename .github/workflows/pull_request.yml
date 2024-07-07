@@ -14,10 +14,13 @@ jobs:
     if: github.event.comment.body == 'run action' && github.event.issue.pull_request
     runs-on: ubuntu-latest
     steps:
+      - name: Get pull request number
+        id: number
+        run: echo "NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
       - name: Checkout source repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+      - name: Checkout pull request
+        run: git fetch origin pull/${{ steps.number.outputs.NUMBER }}/head:pr/${{ steps.number.outputs.NUMBER }}
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
