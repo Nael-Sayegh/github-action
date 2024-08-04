@@ -46,7 +46,7 @@ jobs:
 
       - name: Add check
         if: success()
-        - uses: LouisBrunner/checks-action@v2.0.0
+        uses: LouisBrunner/checks-action@v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Add-on build
