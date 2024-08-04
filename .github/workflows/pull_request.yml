@@ -32,10 +32,10 @@ jobs:
 
       - name: get commit hash
         run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-        
+
       - name: build with hash of commit
         run: scons version=$COMMIT_HASH 2> build_error.log
-        
+
       - name: upload artifacts
         if: success()
         uses: actions/upload-artifact@v4
@@ -43,6 +43,16 @@ jobs:
         with:
           name: build-artifact
           path: ./*.nvda-addon
+
+      - name: Add check
+        if: success()
+        - uses: LouisBrunner/checks-action@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Add-on build
+          conclusion: ${{ job.status }}
+          output: |
+            {"summary":"Add-on built sucessfully, download here: ${{ steps.artifactURL.outputs.artifactURL }}"}
 
       - name: Comment on PR if build fails
         if: failure()
