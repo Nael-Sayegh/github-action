@@ -8,7 +8,7 @@ on:
 
 jobs:
   scons:
-    if: "!contains(github.event.pull_request.labels.*.name, 'notForAddon')" || "!contains(github.event.pull_request.labels.*.name, 'translation')"
+    if: "!contains(github.event.pull_request.labels.*.name, 'notForAddon') || !contains(github.event.pull_request.labels.*.name, 'translation')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source repository
