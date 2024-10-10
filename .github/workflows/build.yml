@@ -14,24 +14,7 @@ jobs:
       - name: Checkout source repository
         uses: actions/checkout@v4
         with:
-          ref: name: pull_request
-
-permissions:
-  pull-requests: write
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
