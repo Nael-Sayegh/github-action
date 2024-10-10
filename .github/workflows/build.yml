@@ -1,7 +1,7 @@
 name: Build Add-on
 
 permissions:
-  pull-requests: read
+  pull-requests: write
 
 on:
   workflow_call:
@@ -43,8 +43,6 @@ jobs:
       - name: comment on pull request if build fails
         uses: actions/github-script@v7
         if: failure()
-        permissions:
-          pull-requests: write
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
