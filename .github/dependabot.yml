@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "Nael-Sayegh"
+    assignees:
+      - "Nael-Sayegh"
+    commit-message:
+      include: "scope"
+    target-branch: "main"
+    groups:
+      github-actions-all:
+        patterns:
+          - "*"
