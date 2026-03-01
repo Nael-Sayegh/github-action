@@ -1,0 +1,72 @@
+name: pull_request
+
+permissions:
+  pull-requests: write
+  checks: write
+  contents: read
+
+
+on:
+  workflow_call:
+
+jobs:
+  scons:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+          
+      - name: Install dependencies
+        run: pip install scons markdown
+        
+      - name: update packages
+        run: sudo apt-get update
+        
+      - name: install gettext
+        run: sudo apt-get install gettext
+
+      - name: get commit hash
+        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: build with hash of commit
+        run: scons version=$COMMIT_HASH 2> build_error.log
+
+      - name: upload artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        id: artifactURL
+        with:
+          name: build_add-on
+          path: ./*.nvda-addon
+
+      - name: Add check
+        if: success()
+        uses: LouisBrunner/checks-action@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Add-on build
+          conclusion: ${{ job.status }}
+          output: |
+            {"summary":"Add-on built sucessfully, download here: ${{ steps.artifactURL.outputs.artifactURL }}"}
+
+      - name: Comment on PR if build fails
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const errorMessage = fs.readFileSync('build_error.log', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Add-on build failed with error:\n\`\`\`\n${errorMessage}\n\`\`\``
+            });
