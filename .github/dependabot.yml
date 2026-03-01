@@ -11,9 +11,10 @@ updates:
     assignees:
       - "Nael-Sayegh"
     commit-message:
+      prefix: "github actions dependencies"
       include: "scope"
 #    target-branch: "main"
-    #groups:
-      #github-actions-all:
-        #patterns:
-#          - "*"
+    groups:
+      github-actions-all:
+        patterns:
+          - "*"
